@@ -8,6 +8,7 @@ categories = np.array(['Beef', 'Pork', 'Poultry', 'Fish', 'Shellfish', 'LambShee
 	'OtherGrains', 'AlmondMilk', 'CoconutMilk', 'MeatSub', 'CheeseSub', 'EggSub', 'FishSub', 'Fruits',
 	'Vegetables', 'Roots', 'Sugars', 'VegOils', 'TeaCoffeeSpices', 'Alcohol'])
 
+#meat, milk and cream, pasta, preserves
 def categorize():
 	food_input = pd.read_excel(excel_file)
 	#only use inputs in pounds
@@ -16,7 +17,7 @@ def categorize():
 	food_input.reset_index(inplace=True)
 	#only include relevant columns
 	food_input = food_input[['Item Name', 'Cost Category Name', 'Purchase Unit']]
-	
+
 	food_input['Carbon Category'] = ''
 
 	food_input['Carbon Category'] = np.where((food_input['Cost Category Name'] == 'BAKERY - BREADS'), 
@@ -52,6 +53,9 @@ def categorize():
 	food_input['Carbon Category'] = np.where((food_input['Cost Category Name'] == 'BUTTER & MARGARINE'), 
 		'Butter', food_input['Carbon Category'])
 
+	food_input['Carbon Category'] = np.where((food_input['Cost Category Name'] == 'EGGS'), 
+		'Eggs', food_input['Carbon Category'])
+
 	food_input['Carbon Category'] = np.where(food_input['Cost Category Name'].str.contains
 			("Beer", case=False, na=False), 'Alcohol', food_input['Carbon Category'])
 
@@ -62,7 +66,14 @@ def categorize():
 		& (food_input['Cost Category Name'] == 'CHEESE YOGURT & TOFU')), 'TOFU', food_input['Carbon Category'])
 
 	food_input['Carbon Category'] = np.where((food_input['Item Name'].str.contains("CHEESE", case=False, na=False)
-		& (food_input['Cost Category Name'] == 'CHEESE YOGURT & TOFU')), 'CHEESE', food_input['Carbon Category'])	
+		& (food_input['Cost Category Name'] == 'CHEESE YOGURT & TOFU')), 'CHEESE', food_input['Carbon Category'])
+
+	food_input['Carbon Category'] = np.where((food_input['Cost Category Name'] == 'FISH'), 
+		'Fish', food_input['Carbon Category'])
+
+	food_input['Carbon Category'] = np.where((food_input['Item Name'].str.contains
+		("shrimp|mussel|scallop|calamari|clam|lobster|crab", case=False, na=False) 
+		& (food_input['Cost Category Name'] == 'FISH')), 'Shellfish', food_input['Carbon Category'])	
 
 
 categorize()
