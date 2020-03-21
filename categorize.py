@@ -5,10 +5,10 @@ excel_file = 'Data2018_19SY.xls'
 categories = np.array(['Beef', 'Pork', 'Poultry', 'Fish', 'Shellfish', 'LambSheepGoat', 'Milk', 
 	'Yogurt', 'Cream', 'Cheese', 'Butter', 'IceCream', 'Eggs', 'Beans', 'Peanuts', 'PeanutButter', 
 	'Soybeans', 'NutsSeeds', 'NutSeedButter', 'Rice', 'Wheat', 'Corn', 'Bread', 'Pasta', 
-	'OtherGrains', 'AlmondMilk', 'CoconutMilk', 'MeatSub', 'CheeseSub', 'EggSub', 'FishSub', 'Fruits',
-	'Vegetables', 'Roots', 'Sugars', 'VegOils', 'TeaCoffeeSpices', 'Alcohol'])
+	'OtherGrains', 'AlmondMilk', 'CoconutMilk', 'SoyMilk', 'MeatSub', 'CheeseSub', 'EggSub', 'FishSub', 
+	'Fruits', 'Vegetables', 'Roots', 'Sugars', 'VegOils', 'TeaCoffeeSpices', 'Alcohol'])
 
-#meat, milk and cream, pasta, preserves
+#milk and cream, preserves
 def categorize():
 	food_input = pd.read_excel(excel_file)
 	#only use inputs in pounds
@@ -47,6 +47,9 @@ def categorize():
 	food_input['Carbon Category'] = np.where((food_input['Cost Category Name'] == 'ICE CREAM'), 
 		'IceCream', food_input['Carbon Category'])
 
+	food_input['Carbon Category'] = np.where((food_input['Cost Category Name'] == 'PASTA'), 
+		'Pasta', food_input['Carbon Category'])
+
 	food_input['Carbon Category'] = np.where((food_input['Cost Category Name'] == 'POULTRY'), 
 		'Poultry', food_input['Carbon Category'])
 
@@ -73,7 +76,25 @@ def categorize():
 
 	food_input['Carbon Category'] = np.where((food_input['Item Name'].str.contains
 		("shrimp|mussel|scallop|calamari|clam|lobster|crab", case=False, na=False) 
-		& (food_input['Cost Category Name'] == 'FISH')), 'Shellfish', food_input['Carbon Category'])	
+		& (food_input['Cost Category Name'] == 'FISH')), 'Shellfish', food_input['Carbon Category'])
+
+	food_input['Carbon Category'] = np.where((food_input['Item Name'].str.contains
+		("beef|burger|veal", case=False, na=False) 
+		& (food_input['Cost Category Name'] == 'MEAT')), 'Beef', food_input['Carbon Category'])
+
+	food_input['Carbon Category'] = np.where((food_input['Item Name'].str.contains
+		("pork|bacon|prosciutto|capicola|salami|pepperoni|ham|sausage|franks|linguica|pastrami|mortadella", 
+		case=False, na=False) & (food_input['Cost Category Name'] == 'MEAT')), 'Pork', 
+		food_input['Carbon Category'])
+
+	food_input['Carbon Category'] = np.where((food_input['Item Name'].str.contains
+		("lamb", case=False, na=False) 
+		& (food_input['Cost Category Name'] == 'MEAT')), 'LambSheepGoat', food_input['Carbon Category'])
+
+	for i in range(food_input.shape[0]):
+		if (food_input['Cost Category Name'][i] == 'MILK & CREAM'):
+			print(food_input['Item Name'][i])
+
 
 
 categorize()
