@@ -19,7 +19,7 @@ def categorize():
 	food_input['Carbon Category'] = ''
 	food_input['Carbon Category'] = np.where(food_input['Cost Category Name'].str.contains
 			("Beer", case=False, na=False), 'Alcohol', '')
-
+	#come back to cheese and Fish and meat and milk
 	for i in range(food_input.shape[0]):
 		if (food_input['Cost Category Name'][i] == 'BAKERY - BREADS'):
 			food_input['Carbon Category'][i] = 'Bread'
@@ -27,11 +27,19 @@ def categorize():
 		if (food_input['Cost Category Name'][i] == 'BUTTER & MARGARINE'):
 			food_input['Carbon Category'][i] = 'Butter'
 
-		if (food_input['Cost Category Name'][i] == 'CANNED FRUIT'):
+		if (food_input['Cost Category Name'][i] == 'CANNED FRUIT' or 'FRESH FRUIT' or 'FROZEN FRUIT'):
 			food_input['Carbon Category'][i] = 'Fruit'
 
-		if (food_input['Cost Category Name'][i] == 'CANNED VEGETABLES'):
+		if (food_input['Cost Category Name'][i] == 'CANNED VEGETABLES' or 'FRESH VEGETABLES' or 'FROZEN VEGETABLES'):
 			food_input['Carbon Category'][i] = 'Vegetables'
+
+		if (food_input['Cost Category Name'][i] == 'ICE CREAM'):
+			food_input['Carbon Category'][i] = 'IceCream'
+
+		if (food_input['Cost Category Name'][i] == 'POULTRY'):
+			food_input['Carbon Category'][i] = 'Poultry'
+
+
 
 		
 
