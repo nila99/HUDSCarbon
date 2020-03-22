@@ -90,11 +90,9 @@ def categorize():
 	food_input['Carbon Category'] = np.where((food_input['Item Name'].str.contains
 		("lamb", case=False, na=False) 
 		& (food_input['Cost Category Name'] == 'MEAT')), 'LambSheepGoat', food_input['Carbon Category'])
+	
+	food_input = food_input.loc[food_input['Carbon Category'] != '']
+	#reset indices
+	food_input.reset_index(inplace=True)
 
-	for i in range(food_input.shape[0]):
-		if (food_input['Cost Category Name'][i] == 'MILK & CREAM'):
-			print(food_input['Item Name'][i])
-
-
-
-categorize()
+	return food_input
