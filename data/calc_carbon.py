@@ -30,6 +30,4 @@ def calc_carbon():
 		food_input.at[i, 'Carbon Oppurtunity Costs'] = (food_input.at[i, 'Units'])* \
 		(emission_numbers.get(food_input.at[i, 'Carbon Category'])[2]/1000)
 	
-
-
-calc_carbon()
+	return food_input
